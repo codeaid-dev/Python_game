@@ -18,5 +18,7 @@ class Ghost:
         if self.rect.bottom > self.screen_rect.bottom or self.rect.top < 0:
             self.settings.ghost_yspeed *= -1
 
-        self.rect.x += self.settings.ghost_xspeed
-        self.rect.y += self.settings.ghost_yspeed
+        self.x += self.settings.ghost_xspeed
+        self.y += self.settings.ghost_yspeed
+        self.rect.x = self.x
+        self.rect.y = self.y
