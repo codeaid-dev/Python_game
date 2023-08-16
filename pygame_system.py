@@ -6,7 +6,7 @@ BLACK = (0,0,0)
 
 def main():
     pygame.init()
-    pygame.display.set_caption("初めてのPygame")
+    pygame.display.set_caption("初めてのPyGame")
     screen = pygame.display.set_mode((800,600))
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 80)
