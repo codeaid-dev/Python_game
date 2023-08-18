@@ -24,7 +24,7 @@ while True:
     pg.draw.polygon(screen, (255,255,0), [[495,420],[540,270],[600,270],[645,420]], 5)
     screen.blit(text1, (100,440)) #文字列,SysFontでフォント指定,renderで文字列と色指定,blitで表示,座標：左上隅
     screen.blit(text2, (360,440))
-    screen.blit(img, (495,440)) #画像,loadで画像読み込み,blitで表示,座標：中心
+    screen.blit(img, (495,440)) #画像,loadで画像読み込み,blitで表示,座標：左上隅
     pg.display.update()
     for event in pg.event.get():
         if event.type == pg.QUIT:
