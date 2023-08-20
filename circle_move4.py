@@ -11,8 +11,6 @@ class Circle:
 pg.init()
 screen = pg.display.set_mode((500,500))
 pg.display.set_caption('円の色を変える')
-x,y = [150,250,350],[250,250,250]
-speedx,speedy = [3,2,3],[2,3,1]
 circles = [Circle() for i in range(3)]
 colors = ['red','green','blue']
 
