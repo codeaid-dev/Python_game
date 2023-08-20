@@ -3,7 +3,7 @@ import pygame as pg, sys
 pg.init()
 screen = pg.display.set_mode((500,500))
 pg.display.set_caption('画像拡大縮小')
-img = pg.image.load('images/dorne_red.png')
+img = pg.image.load('images/drone_red.png')
 width,height = img.get_size()
 #img = pg.transform.scale(img,(width/2,height/2))
 #img = pg.transform.scale(img,(width*1.5,height*1.5))
