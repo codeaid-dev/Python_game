@@ -3,10 +3,10 @@ import pygame as pg, sys
 pg.init()
 screen = pg.display.set_mode((500,500))
 pg.display.set_caption('ドローンを操作する')
-img = pg.image.load('images/drone_red.png')
-width,height = img.get_size()
-img = pg.transform.scale(img,(width/3,height/3))
-width,height = img.get_size()
+drone = pg.image.load('images/drone_red.png')
+width,height = drone.get_size()
+drone = pg.transform.scale(drone,(width/3,height/3))
+width,height = drone.get_size()
 x,y = (500-width)/2,(500-height)/2
 speed = 5
 
@@ -31,7 +31,7 @@ while True:
     if y > 500:
         y = -height
 
-    screen.blit(img, (x,y))
+    screen.blit(drone, (x,y))
     pg.display.update()
     pg.time.Clock().tick(60)
     for event in pg.event.get():
