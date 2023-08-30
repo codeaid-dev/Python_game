@@ -19,7 +19,6 @@ for i in range(20):
     enemies.append(enemy)
 start = False
 over = False
-stime = time.time()
 
 while True:
     screen.fill(pg.Color('white'))
@@ -47,8 +46,9 @@ while True:
     pg.display.update()
     pg.time.Clock().tick(60)
     for event in pg.event.get():
-        if event.type == pg.MOUSEBUTTONDOWN:
+        if event.type == pg.MOUSEBUTTONDOWN and not start:
             start = True
+            stime = time.time()
 
         if event.type == pg.QUIT:
             pg.quit()
