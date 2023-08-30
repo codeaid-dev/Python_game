@@ -4,6 +4,7 @@ pg.init()
 screen = pg.display.set_mode((500,500))
 pg.display.set_caption('マウスのボタンを取得する')
 font = pg.font.Font(None, 50)
+btninfo = 0
 
 while True:
     screen.fill(pg.Color('white'))
@@ -13,10 +14,14 @@ while True:
     text = font.render(f"{b1}:{b2}:{b3}", True, pg.Color('red'))
     width,height = text.get_size()
     screen.blit(text,((500-width)/2,(500-height)/2))
+    text2 = font.render(f'Button Info: {btninfo}', True, pg.Color('orange'))
+    screen.blit(text2,((500-width)/2,(500-height)/2+30))
     pg.draw.circle(screen, pg.Color('black'), (x,y), 25)
     pg.display.update()
     pg.time.Clock().tick(60)
     for event in pg.event.get():
+        if event.type == pg.MOUSEBUTTONDOWN:
+            btninfo = event.button
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
