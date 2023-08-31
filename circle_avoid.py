@@ -9,7 +9,7 @@ pg.init()
 screen = pg.display.set_mode((400,600))
 pg.display.set_caption('落ちてくる円を避ける')
 width,height = screen.get_size()
-font = pg.font.SysFont('meiryo', 30)
+font = pg.font.SysFont('helvetica', 30)
 for i in range(20):
     enemy = Circle()
     enemy.radius = random.randint(2,25)

@@ -33,7 +33,7 @@ while True:
     etime = time.time() - stime
     if etime > 10:
         over = True
-        font = pg.font.SysFont('meiryo', 30)
+        font = pg.font.SysFont('helvetica', 30)
         text = font.render(f'GAME OVER ({hits} hits)', True, (0,0,0))
         screen.blit(text,((450-text.get_width())/2,(450-text.get_height())/2))
 

@@ -52,7 +52,7 @@ while True:
     etime = time.time() - stime
     if etime > 20:
         timeup = True
-        font = pg.font.SysFont('meiryo', 30)
+        font = pg.font.SysFont('helvetica', 30)
         text = font.render(f'TIME UP (score:{score})', True, (0,0,0))
         screen.blit(text,((width-text.get_width())/2,(height-text.get_height())/2))
 
