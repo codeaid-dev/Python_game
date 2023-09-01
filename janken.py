@@ -1,97 +1,100 @@
 import pygame as pg, sys, random
 
-hands = ['グー','チョキ','パー']
 class Hand:
-    def __init__(self,hand=None,img=False):
-        self.text = hand
-        self.select = False
-        if img:
-            gu = pg.image.load('images/janken_gu.png')
-            w,h = gu.get_size()
-            self.gu = pg.transform.scale(gu,(w/2,h/2))
-            choki = pg.image.load('images/janken_choki.png')
-            w,h = choki.get_size()
-            self.choki = pg.transform.scale(choki,(w/2,h/2))
-            pa = pg.image.load('images/janken_pa.png')
-            w,h = pa.get_size()
-            self.pa = pg.transform.scale(pa,(w/2,h/2))
+    pass
 
 pg.init()
 screen = pg.display.set_mode((500,350))
 pg.display.set_caption('じゃんけん')
-select_gu = Hand(hands[0])
-select_gu.select = True
-select_choki = Hand(hands[1])
-select_pa = Hand(hands[2])
-com = Hand(hands[0],True)
-you = Hand(hands[0],True)
 font = pg.font.SysFont('rictydiminished', 20)
-text_gu = font.render(hands[0], True, (0,0,0))
-text_choki = font.render(hands[1], True, (0,0,0))
-text_pa = font.render(hands[2], True, (0,0,0))
-text_pon = font.render('ぽん', True, (0,0,0))
+gu = Hand()
+gu.text = 'グー'
+gu.txt = font.render(gu.text, True, (0,0,0))
+img = pg.image.load('images/janken_gu.png')
+w,h = img.get_size()
+gu.img = pg.transform.scale(img,(w/2,h/2))
+choki = Hand()
+choki.text = 'チョキ'
+choki.txt = font.render(choki.text, True, (0,0,0))
+img = pg.image.load('images/janken_choki.png')
+w,h = img.get_size()
+choki.img = pg.transform.scale(img,(w/2,h/2))
+pa = Hand()
+pa.text = 'パー'
+pa.txt = font.render(pa.text, True, (0,0,0))
+img = pg.image.load('images/janken_pa.png')
+w,h = img.get_size()
+pa.img = pg.transform.scale(img,(w/2,h/2))
+hands = [gu,choki,pa]
+
+pontxt = font.render('ぽん', True, (0,0,0))
+youwin = font.render('あなたの勝ちです', True, (0,0,0))
+comwin = font.render('コンピューターの勝ちです', True, (0,0,0))
+aiko = font.render('あいこ', True, (0,0,0))
+
+com = gu
+you = gu
+janken = False
+result = None
 
 while True:
     screen.fill(pg.Color('white'))
-    if com.text == hands[0]:
-        screen.blit(com.gu,((250-com.gu.get_width())/2,(250-com.gu.get_height())/2))
-    if com.text == hands[1]:
-        screen.blit(com.choki,((250-com.choki.get_width())/2,(250-com.choki.get_height())/2))
-    if com.text == hands[2]:
-        screen.blit(com.pa,((250-com.pa.get_width())/2,(250-com.pa.get_height())/2))
-    if you.text == hands[0]:
-        screen.blit(you.gu,((250-you.gu.get_width())/2+250,(250-you.gu.get_height())/2))
-    if you.text == hands[1]:
-        screen.blit(you.choki,((250-you.choki.get_width())/2+250,(250-you.choki.get_height())/2))
-    if you.text == hands[2]:
-        screen.blit(you.pa,((250-you.pa.get_width())/2+250,(250-you.pa.get_height())/2))
-    if select_gu.select:
-        select_gu.rect = pg.draw.rect(screen,pg.Color('gray'),(100,250,100,40))
+    if com == gu:
+        screen.blit(gu.img,((250-gu.img.get_width())/2,(250-gu.img.get_height())/2))
+    if com == choki:
+        screen.blit(choki.img,((250-choki.img.get_width())/2,(250-choki.img.get_height())/2))
+    if com == pa:
+        screen.blit(pa.img,((250-pa.img.get_width())/2,(250-pa.img.get_height())/2))
+    if you == gu:
+        screen.blit(gu.img,((250-gu.img.get_width())/2+250,(250-gu.img.get_height())/2))
+        gu.btn = pg.draw.rect(screen,pg.Color('gray'),(100,250,100,40))
     else:
-        select_gu.rect = pg.draw.rect(screen,pg.Color('gray'),(100,250,100,40),5)
-    screen.blit(text_gu,
-                (select_gu.rect.x+(select_gu.rect.w-text_gu.get_width())/2,
-                 select_gu.rect.y+(select_gu.rect.h-text_gu.get_height())/2))
-    if select_choki.select:
-        select_choki.rect = pg.draw.rect(screen,pg.Color('gray'),(200,250,100,40))
+        gu.btn = pg.draw.rect(screen,pg.Color('gray'),(100,250,100,40),5)
+    screen.blit(gu.txt,(gu.btn.x+(gu.btn.w-gu.txt.get_width())/2,gu.btn.y+(gu.btn.h-gu.txt.get_height())/2))
+    if you == choki:
+        screen.blit(choki.img,((250-choki.img.get_width())/2+250,(250-choki.img.get_height())/2))
+        choki.btn = pg.draw.rect(screen,pg.Color('gray'),(200,250,100,40))
     else:
-        select_choki.rect = pg.draw.rect(screen,pg.Color('gray'),(200,250,100,40),5)
-    screen.blit(text_choki,
-                (select_choki.rect.x+(select_choki.rect.w-text_choki.get_width())/2,
-                 select_choki.rect.y+(select_choki.rect.h-text_choki.get_height())/2))
-    if select_pa.select:
-        select_pa.rect = pg.draw.rect(screen,pg.Color('gray'),(300,250,100,40))
+        choki.btn = pg.draw.rect(screen,pg.Color('gray'),(200,250,100,40),5)
+    screen.blit(choki.txt,(choki.btn.x+(choki.btn.w-choki.txt.get_width())/2,choki.btn.y+(choki.btn.h-choki.txt.get_height())/2))
+    if you == pa:
+        screen.blit(pa.img,((250-pa.img.get_width())/2+250,(250-pa.img.get_height())/2))
+        pa.btn = pg.draw.rect(screen,pg.Color('gray'),(300,250,100,40))
     else:
-        select_pa.rect = pg.draw.rect(screen,pg.Color('gray'),(300,250,100,40),5)
-    screen.blit(text_pa,
-                (select_pa.rect.x+(select_pa.rect.w-text_pa.get_width())/2,
-                 select_pa.rect.y+(select_pa.rect.h-text_pa.get_height())/2))
+        pa.btn = pg.draw.rect(screen,pg.Color('gray'),(300,250,100,40),5)
+    screen.blit(pa.txt,(pa.btn.x+(pa.btn.w-pa.txt.get_width())/2,pa.btn.y+(pa.btn.h-pa.txt.get_height())/2))
 
     pon = pg.draw.rect(screen,pg.Color('gray'),(200,300,100,40))
-    screen.blit(text_pon,(pon.x+(pon.w-text_pon.get_width())/2,pon.y+(pon.h-text_pon.get_height())/2))
+    screen.blit(pontxt,(pon.x+(pon.w-pontxt.get_width())/2,pon.y+(pon.h-pontxt.get_height())/2))
+
+    if janken:
+        if (you == gu and com == choki) or (you == choki and com == pa) or (you == pa and com == gu):
+            result = youwin
+            janken = False
+        elif (you == gu and com == pa) or (you == choki and com == gu) or (you == pa and com == choki):
+            result = comwin
+            janken = False
+        else:
+            result = aiko
+            janken = False
+
+    if result != None:
+        screen.blit(result,((500-result.get_width())/2,(250-result.get_height())/2))
 
     pg.display.update()
     pg.time.Clock().tick(60)
     for event in pg.event.get():
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             mx,my = event.pos
-            if select_gu.rect.collidepoint(mx,my):
-                select_gu.select = True
-                select_choki.select = False
-                select_pa.select = False
-                you.text = hands[0]
-            if select_choki.rect.collidepoint(mx,my):
-                select_choki.select = True
-                select_gu.select = False
-                select_pa.select = False
-                you.text = hands[1]
-            if select_pa.rect.collidepoint(mx,my):
-                select_pa.select = True
-                select_choki.select = False
-                select_gu.select = False
-                you.text = hands[2]
+            if gu.btn.collidepoint(mx,my):
+                you = gu
+            if choki.btn.collidepoint(mx,my):
+                you = choki
+            if pa.btn.collidepoint(mx,my):
+                you = pa
             if pon.collidepoint(mx,my):
-                com.text = random.choice(hands)
+                com = random.choice(hands)
+                janken = True
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
