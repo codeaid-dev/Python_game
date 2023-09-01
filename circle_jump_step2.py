@@ -1,4 +1,4 @@
-import pygame as pg, sys
+import pygame as pg, sys, random
 
 class Circle:
     pass
@@ -12,6 +12,13 @@ player.y = 235
 player.dx = 0
 player.dy = 0
 player.radius = 15
+enemies = []
+for i in range(5):
+    enemy = Circle()
+    enemy.radius = random.randint(10,75)
+    enemy.x = random.randint(700+enemy.radius,1400-enemy.radius)
+    enemy.y = 300-enemy.radius
+    enemies.append(enemy)
 
 
 while True:
@@ -34,6 +41,11 @@ while True:
     player.x += player.dx
     player.y += player.dy
     pg.draw.circle(screen,pg.Color('black'),(player.x,player.y),player.radius)
+    for enemy in enemies:
+        enemy.x -= 3
+        if enemy.x < -enemy.radius:
+            enemy.x = random.randint(700+enemy.radius,1400-enemy.radius)
+        pg.draw.circle(screen,pg.Color('blue'),(enemy.x,enemy.y),enemy.radius)
 
     pg.display.update()
     pg.time.Clock().tick(60)
