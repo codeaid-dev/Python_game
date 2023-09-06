@@ -47,7 +47,8 @@ while True:
                 mx,my = event.pos
                 count = 0
                 for i in range(25):
-                    if rights[i].rect.x < mx < rights[i].rect.x+80 and rights[i].rect.y < my < rights[i].rect.y+80:
+                    #if rights[i].rect.x < mx < rights[i].rect.x+80 and rights[i].rect.y < my < rights[i].rect.y+80:
+                    if rights[i].rect.collidepoint(mx,my):
                         if rights[i].color != lefts[i].color:
                             if rights[i].color == 'red':
                                 rights[i].color = 'white'
