@@ -10,9 +10,9 @@ def main():
     pg.display.set_caption("パックマンもどき")
     screen = pg.display.set_mode(WINDOW_SIZE)
     clock = pg.time.Clock()
-    packman = [
-        pg.image.load("images/packman0.png"),
-        pg.image.load("images/packman1.png")
+    pac_man = [
+        pg.image.load("images/pac-man0.png"),
+        pg.image.load("images/pac-man1.png")
     ]
     tmr = 0
 
@@ -29,7 +29,7 @@ def main():
                     screen = pg.display.set_mode(WINDOW_SIZE)
 
         screen.fill(BACKGROUND)
-        img = packman[(tmr//10)%2]
+        img = pac_man[(tmr//10)%2]
         rect = img.get_rect(center=(WIDTH/2, HEIGHT/2))
         screen.blit(img,rect)
         pg.display.update()

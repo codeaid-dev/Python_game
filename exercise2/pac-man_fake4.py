@@ -5,11 +5,11 @@ WINDOW_SIZE = WIDTH,HEIGHT = 800,450
 BACKGROUND = (0,0,0)
 FPS = 60
 
-class Packman:
+class Pac_man:
     def __init__(self):
         self._images = [
-            pg.image.load("images/packman0.png"),
-            pg.image.load("images/packman1.png")
+            pg.image.load("images/pac-man0.png"),
+            pg.image.load("images/pac-man1.png")
         ]
         self._x = WIDTH/2
         self._y = HEIGHT/2
@@ -67,7 +67,7 @@ def main():
     screen = pg.display.set_mode(WINDOW_SIZE)
     clock = pg.time.Clock()
     tmr = 0
-    packman = Packman()
+    pac_man = Pac_man()
     snacks = [Snack() for i in range(50)]
 
     while True:
@@ -86,11 +86,11 @@ def main():
         for s in snacks:
             if s._display:
                 s.rect = pg.draw.circle(screen,(255,255,0),(s._x,s._y),5,width=0)
-                if pg.sprite.collide_circle(packman,s):
+                if pg.sprite.collide_circle(pac_man,s):
                     s._display = False
 
-        packman.move()
-        packman.draw(screen,tmr//10)
+        pac_man.move()
+        pac_man.draw(screen,tmr//10)
         pg.display.update()
         clock.tick(FPS)
 

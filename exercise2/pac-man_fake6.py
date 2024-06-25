@@ -5,11 +5,11 @@ WINDOW_SIZE = WIDTH,HEIGHT = 800,450
 BACKGROUND = (0,0,0)
 FPS = 60
 
-class Packman:
+class Pac_man:
     def __init__(self):
         self._images = [
-            pg.image.load("images/packman0.png"),
-            pg.image.load("images/packman1.png")
+            pg.image.load("images/pac-man0.png"),
+            pg.image.load("images/pac-man1.png")
         ]
         self._x = WIDTH/2
         self._y = HEIGHT/2
@@ -73,14 +73,14 @@ class Monster:
         self._y = random.randint(15,HEIGHT-15)
         self._speed = 3
 
-    def move(self,packman):
-        if self._x < packman._x:
+    def move(self,pac_man):
+        if self._x < pac_man._x:
             self._x += self._speed
-        if self._x > packman._x:
+        if self._x > pac_man._x:
             self._x -= self._speed
-        if self._y < packman._y:
+        if self._y < pac_man._y:
             self._y += self._speed
-        if self._y > packman._y:
+        if self._y > pac_man._y:
             self._y -= self._speed
 
     def draw(self,screen,mode):
@@ -94,7 +94,7 @@ def main():
     screen = pg.display.set_mode(WINDOW_SIZE)
     clock = pg.time.Clock()
     tmr = 0
-    packman = Packman()
+    pac_man = Pac_man()
     snacks = [Snack() for i in range(50)]
     monster = Monster()
     over,clear = False,False
@@ -118,32 +118,32 @@ def main():
         for s in snacks:
             if s._display:
                 s.rect = pg.draw.circle(screen,(255,255,0),(s._x,s._y),5,width=0)
-                if pg.sprite.collide_circle(packman,s):
+                if pg.sprite.collide_circle(pac_man,s):
                     sound_eat.play()
                     s._display = False
 
         if not over and not clear:
-            packman.move()
-            monster.move(packman)
-        packman.draw(screen,tmr//10)
+            pac_man.move()
+            monster.move(pac_man)
+        pac_man.draw(screen,tmr//10)
         monster.draw(screen,tmr//10)
 
         if over:
-            if not packman.play_end:
+            if not pac_man.play_end:
                 sound_end.play()
-                packman.play_end = True
+                pac_man.play_end = True
             font = pg.font.SysFont('helvetica', 30)
             txt = font.render('GAME OVER',True,(255,255,255))
             screen.blit(txt,((WIDTH-txt.get_width())/2,(HEIGHT-txt.get_height())/2))
         if clear:
-            if not packman.play_clear:
+            if not pac_man.play_clear:
                 sound_clear.play()
-                packman.play_clear = True
+                pac_man.play_clear = True
             font = pg.font.SysFont('helvetica', 30)
             txt = font.render('GAME CLEAR',True,(255,255,255))
             screen.blit(txt,((WIDTH-txt.get_width())/2,(HEIGHT-txt.get_height())/2))
 
-        if pg.sprite.collide_circle(packman,monster):
+        if pg.sprite.collide_circle(pac_man,monster):
             over = True
         count = 0
         for s in snacks:

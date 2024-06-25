@@ -5,11 +5,11 @@ WINDOW_SIZE = WIDTH,HEIGHT = 800,450
 BACKGROUND = (0,0,0)
 FPS = 60
 
-class Packman:
+class Pac_man:
     def __init__(self):
         self._images = [
-            pg.image.load("images/packman0.png"),
-            pg.image.load("images/packman1.png")
+            pg.image.load("images/pac-man0.png"),
+            pg.image.load("images/pac-man1.png")
         ]
         self._x = WIDTH/2
         self._y = HEIGHT/2
@@ -45,7 +45,7 @@ def main():
     screen = pg.display.set_mode(WINDOW_SIZE)
     clock = pg.time.Clock()
     tmr = 0
-    packman = Packman()
+    pac_man = Pac_man()
 
     while True:
         tmr += 1
@@ -60,8 +60,8 @@ def main():
                     screen = pg.display.set_mode(WINDOW_SIZE)
 
         screen.fill(BACKGROUND)
-        packman.move()
-        packman.draw(screen,tmr//10)
+        pac_man.move()
+        pac_man.draw(screen,tmr//10)
         pg.display.update()
         clock.tick(FPS)
 
