@@ -26,7 +26,7 @@ showtime = 0
 while True:
     screen.fill(pg.Color('white'))
     if one!=None and two!=None:
-        if showtime < 500:
+        if showtime < 50:
             showtime += 1
         else:
             if one.color != two.color:
@@ -41,6 +41,7 @@ while True:
             pg.draw.circle(screen,pg.Color(c.color),(c.x,c.y),c.radius)
 
     pg.display.update()
+    pg.time.Clock().tick(50)
     for event in pg.event.get():
         if event.type == pg.MOUSEBUTTONDOWN:
             mx,my = event.pos
