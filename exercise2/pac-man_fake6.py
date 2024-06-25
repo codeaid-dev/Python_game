@@ -98,9 +98,9 @@ def main():
     snacks = [Snack() for i in range(50)]
     monster = Monster()
     over,clear = False,False
-    sound_end = pg.mixer.Sound('sounds/packman_end.mp3')
-    sound_eat = pg.mixer.Sound('sounds/packman_eat.mp3')
-    sound_clear = pg.mixer.Sound('sounds/packman_clear.mp3')
+    sound_end = pg.mixer.Sound('sounds/pac-man_end.mp3')
+    sound_eat = pg.mixer.Sound('sounds/pac-man_eat.mp3')
+    sound_clear = pg.mixer.Sound('sounds/pac-man_clear.mp3')
 
     while True:
         tmr += 1
