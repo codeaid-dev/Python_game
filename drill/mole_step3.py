@@ -7,7 +7,6 @@ class Mole:
         self.y = y
         self.dir = random.randint(2,4)
         self.color = 'brown'
-        self.rect = pg.Rect(x,y,self.radius*2,self.radius*2)
 
 pg.init()
 screen = pg.display.set_mode((450,450))
@@ -43,7 +42,7 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             mx,my = event.pos
             for m in moles:
-                if m.rect.collidepoint(mx,my) and m.color=='orange' and not over:
+                if ((m.x-mx)**2 + (m.y-my)**2)**0.5 < m.radius and m.color=='orange' and not over:
                     hits += 1
 
         if event.type == pg.QUIT:

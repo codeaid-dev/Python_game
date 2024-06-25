@@ -1,6 +1,7 @@
 import pygame as pg
 
 for f in pg.font.get_fonts():
-    if f.startswith('r'):
+#    print(f,end=' ')
+    if f.startswith('m'):
         print(f,end=' ')
 print('')
