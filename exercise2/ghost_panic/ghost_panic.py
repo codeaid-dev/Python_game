@@ -46,7 +46,8 @@ class GhostPanic:
             self.text = self.font.render(str(self.timer), True, (0,0,0))
             self.screen.blit(self.text, [300, 50])
 
-            pygame.display.flip()
+#            pygame.display.flip()
+            pygame.display.update()
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
