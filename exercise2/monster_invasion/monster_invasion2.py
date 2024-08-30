@@ -13,10 +13,11 @@ playerW,playerH = player.get_size()
 centerX = WIDTH/2
 centerY = HEIGHT/2
 angle = 0
-class Sprite:
-    pass
 bullets = []
 otoB = pg.mixer.Sound('sounds/gun.mp3')
+
+class Sprite:
+    pass
 
 while True:
     screen.fill(pg.Color('white'))

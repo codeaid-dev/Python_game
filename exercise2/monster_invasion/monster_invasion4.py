@@ -13,8 +13,6 @@ playerW,playerH = player.get_size()
 centerX = WIDTH/2
 centerY = HEIGHT/2
 angle = 0
-class Sprite:
-    pass
 bullets = []
 otoB = pg.mixer.Sound('sounds/gun.mp3')
 enemies = []
@@ -22,6 +20,9 @@ start = time.time()
 interval = 2
 monster = pg.image.load('images/monster-77x50.png')
 monsterW,monsterH = monster.get_size()
+
+class Sprite:
+    pass
 
 def collision(x1,y1,r1,x2,y2,r2):
     dst = ((x2-x1)**2 + (y2-y1)**2)**0.5
@@ -49,6 +50,9 @@ while True:
         b.y += 3*math.sin(math.radians(b.angle))
         if 0 > b.x or b.x > WIDTH or 0 > b.y or b.y > HEIGHT:
             bullets.remove(b)
+        for e in enemies:
+            if collision(b.x,b.y,5,e.x,e.y,monsterH/2):
+                enemies.remove(e)
     
     if interval < int(time.time()-start):
         start = time.time()
@@ -69,7 +73,7 @@ while True:
         #pg.draw.circle(screen, pg.Color(100,100,200), (e.x,e.y), 25)
         e.x += 1.2*math.cos(e.angle)
         e.y += 1.2*math.sin(e.angle)
-        if collision(e.x,e.y,25,centerX,centerY,rect.h/2):
+        if collision(e.x,e.y,monsterH/2,centerX,centerY,rect.h/2):
             enemies.remove(e)
 
     pg.display.update()

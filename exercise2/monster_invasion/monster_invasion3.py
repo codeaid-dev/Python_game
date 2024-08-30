@@ -13,13 +13,14 @@ playerW,playerH = player.get_size()
 centerX = WIDTH/2
 centerY = HEIGHT/2
 angle = 0
-class Sprite:
-    pass
 bullets = []
 otoB = pg.mixer.Sound('sounds/gun.mp3')
 enemies = []
 start = time.time()
 interval = 2
+
+class Sprite:
+    pass
 
 def collision(x1,y1,r1,x2,y2,r2):
     dst = ((x2-x1)**2 + (y2-y1)**2)**0.5
