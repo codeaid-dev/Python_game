@@ -1,8 +1,10 @@
 import pygame as pg, sys, math
 
 WINDOW_SIZE = WIDTH,HEIGHT = 600,600
+FPS = 60
 pg.init()
 screen = pg.display.set_mode(WINDOW_SIZE)
+clock = pg.time.Clock()
 pg.display.set_caption('モンスター襲来')
 player = pg.image.load('images/player.png')
 playerW,playerH = player.get_size()
@@ -24,21 +26,24 @@ while True:
     screen.blit(newp, rect)
     key = pg.key.get_pressed()
     if key[pg.K_RIGHT]:
-        angle -= 0.1
+        angle -= 1
         if angle < -359:
             angle = 0
     if key[pg.K_LEFT]:
-        angle += 0.1
+        angle += 1
         if angle > 359:
             angle = 0
 
     for b in bullets:
         pg.draw.circle(screen, pg.Color(255,0,0), (b.x,b.y), 5)
-        b.x += math.cos(math.radians(b.angle))
-        b.y += math.sin(math.radians(b.angle))
+        b.x += 3*math.cos(math.radians(b.angle))
+        b.y += 3*math.sin(math.radians(b.angle))
         if 0 > b.x or b.x > WIDTH or 0 > b.y or b.y > HEIGHT:
             bullets.remove(b)
+
     pg.display.update()
+    clock.tick(FPS)
+
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE:
