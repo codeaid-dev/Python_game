@@ -48,7 +48,7 @@ while True:
         b.y += 3*math.sin(math.radians(b.angle))
         if 0 > b.x or b.x > WIDTH or 0 > b.y or b.y > HEIGHT:
             bullets.remove(b)
-    
+
     if interval < int(time.time()-start):
         start = time.time()
         interval -= 0.1
@@ -56,8 +56,8 @@ while True:
             interval = 2
         e = Sprite()
         direction = random.randint(0,359)
-        e.x = centerX+screen.get_width()*math.cos(math.radians(direction))
-        e.y = centerY+screen.get_height()*math.sin(math.radians(direction))
+        e.x = centerX+WIDTH*math.cos(math.radians(direction))
+        e.y = centerY+HEIGHT*math.sin(math.radians(direction))
         x = centerX-e.x
         y = centerY-e.y
         e.angle = math.atan2(y,x)

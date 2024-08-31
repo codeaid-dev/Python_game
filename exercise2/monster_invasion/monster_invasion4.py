@@ -20,6 +20,10 @@ start = time.time()
 interval = 2
 monster = pg.image.load('images/monster-77x50.png')
 monsterW,monsterH = monster.get_size()
+over = False
+score = 0
+bomb1 = pg.mixer.Sound('sounds/bomb1.mp3')
+bomb2 = pg.mixer.Sound('sounds/bomb2.mp3')
 
 class Sprite:
     pass
@@ -53,16 +57,18 @@ while True:
         for e in enemies:
             if collision(b.x,b.y,5,e.x,e.y,monsterH/2):
                 enemies.remove(e)
-    
-    if interval < int(time.time()-start):
+                bomb1.play()
+                score += 1
+
+    if interval < int(time.time()-start) and not over:
         start = time.time()
         interval -= 0.1
         if interval <= 0:
             interval = 2
         e = Sprite()
         direction = random.randint(0,359)
-        e.x = centerX+screen.get_width()*math.cos(math.radians(direction))
-        e.y = centerY+screen.get_height()*math.sin(math.radians(direction))
+        e.x = centerX+WIDTH*math.cos(math.radians(direction))
+        e.y = centerY+HEIGHT*math.sin(math.radians(direction))
         x = centerX-e.x
         y = centerY-e.y
         e.angle = math.atan2(y,x)
@@ -75,13 +81,20 @@ while True:
         e.y += 1.2*math.sin(e.angle)
         if collision(e.x,e.y,monsterH/2,centerX,centerY,rect.h/2):
             enemies.remove(e)
+            bomb2.play()
+            over = True
+
+    if over:
+        font = pg.font.SysFont('helvetica', 30)
+        txt = font.render(f'GAME OVER SCORE: {score}',True,(0,0,0))
+        screen.blit(txt,((WIDTH-txt.get_width())/2,(HEIGHT-txt.get_height())/2))
 
     pg.display.update()
     clock.tick(FPS)
 
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_SPACE:
+            if event.key == pg.K_SPACE and not over:
                 otoB.play()
                 b = Sprite()
                 b.angle = (angle*-1)-90
