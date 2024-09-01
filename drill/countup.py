@@ -15,7 +15,6 @@ for i in range(25):
     tile.num = nums[i]
     tile.color = 'red'
     tile.show = True
-    tile.font = pg.font.SysFont('helvetica', 20)
     tiles.append(tile)
 status = 0 # 0:play,1:over,2:clear
 stime = time.time()
