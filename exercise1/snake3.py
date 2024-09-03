@@ -26,6 +26,11 @@ class Snake:
                            30,30)
             pg.draw.rect(screen,(0,255,0),rect)
     def collision(self):
+        for i in range(1,len(self.body)):
+            if (self.dx != 0 or self.dy != 0) and \
+                self.body[0][0] == self.body[i][0] and \
+                self.body[0][1] == self.body[i][1]:
+                return True
         return self.body[0][0] < 0 or \
             self.body[0][0] > 19 or \
             self.body[0][1] < 0 or \
