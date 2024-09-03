@@ -31,7 +31,6 @@ class Snake:
             self.body[0][1] < 0 or \
             self.body[0][1] > 19
 
-snake = None
 over = False
 font = pg.font.SysFont('helvetica', 30)
 snake = Snake()
