@@ -48,7 +48,7 @@ while True:
         over = True
 
     pg.display.update()
-    pg.time.Clock().tick(5)
+    pg.time.Clock().tick(3)
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_UP:
