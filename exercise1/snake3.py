@@ -45,7 +45,7 @@ class Snake:
 class Food:
     def draw(self):
         rect = pg.Rect(self.x*30,self.y*30,30,30)
-        pg.draw.rect(screen,(255,0,0),rect)
+        pg.draw.ellipse(screen,(255,0,0),rect)
     def set_position(self):
         self.x = random.randint(0,19)
         self.y = random.randint(0,19)
@@ -73,7 +73,7 @@ while True:
         food.set_position()
 
     pg.display.update()
-    pg.time.Clock().tick(5)
+    pg.time.Clock().tick(3)
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_UP:
