@@ -4,6 +4,7 @@ WIDTH,HEIGHT = 800,600
 pg.init()
 screen = pg.display.set_mode((WIDTH,HEIGHT))
 pg.display.set_caption('ミサイルコマンド')
+clock = pg.time.Clock()
 angle = 0
 missiles = []
 enemies = []
@@ -20,11 +21,15 @@ def move_missile():
     for m in missiles:
         pg.draw.line(screen, (0,0,255), (WIDTH/2,HEIGHT-50), (m.x,m.y), 2)
         pg.draw.circle(screen, (255,255,255), (m.x,m.y), m.radius)
-        if m.goalX-1!=int(m.x) and m.moving:
-            m.x += math.cos(m.angle)*0.1
-            m.y += math.sin(m.angle)*0.1
+        if not ((m.goalX-1<=int(m.x)<=m.goalX+1) and \
+                (m.goalY-1<=int(m.y)<=m.goalY+1)) and m.moving:
+            m.x += math.cos(m.angle)*2
+            m.y += math.sin(m.angle)*2
         else:
             m.moving = False
+            m.radius += 0.5
+            if m.radius > 60:
+                missiles.remove(m)
 
 def create_enemy():
     e = Missile()
@@ -43,9 +48,10 @@ def move_enemy():
     for e in enemies:
         pg.draw.line(screen, (255,0,0), (e.startX,e.startY), (e.x,e.y), 2)
         pg.draw.circle(screen, (255,255,255), (e.x,e.y), e.radius)
-        if e.goalX-1!=int(e.x) and e.moving:
-            e.x += math.cos(e.angle)*0.01
-            e.y += math.sin(e.angle)*0.01
+        if not ((e.goalX-1<=int(e.x)<=e.goalX+1) and \
+                (e.goalY-1<=int(e.y)<=e.goalY+1)) and e.moving:
+            e.x += math.cos(e.angle)
+            e.y += math.sin(e.angle)
         else:
             e.moving = False
 
@@ -77,3 +83,4 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
+    clock.tick(60)

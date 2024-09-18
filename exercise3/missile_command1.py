@@ -4,6 +4,7 @@ WIDTH,HEIGHT = 800,600
 pg.init()
 screen = pg.display.set_mode((WIDTH,HEIGHT))
 pg.display.set_caption('ミサイルコマンド')
+clock = pg.time.Clock()
 angle = 0
 missiles = []
 
@@ -19,9 +20,10 @@ def move_missile():
     for m in missiles:
         pg.draw.line(screen, (0,0,255), (WIDTH/2,HEIGHT-50), (m.x,m.y), 2)
         pg.draw.circle(screen, (255,255,255), (m.x,m.y), m.radius)
-        if m.goalX-1!=int(m.x) and m.moving:
-            m.x += math.cos(m.angle)*0.1
-            m.y += math.sin(m.angle)*0.1
+        if not ((m.goalX-1<=int(m.x)<=m.goalX+1) and \
+                (m.goalY-1<=int(m.y)<=m.goalY+1)) and m.moving:
+            m.x += math.cos(m.angle)*2
+            m.y += math.sin(m.angle)*2
         else:
             m.moving = False
 
@@ -46,3 +48,4 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
+    clock.tick(60)
