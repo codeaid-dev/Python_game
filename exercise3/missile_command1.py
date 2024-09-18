@@ -21,11 +21,9 @@ def move_missile():
         pg.draw.line(screen, (0,0,255), (WIDTH/2,HEIGHT-50), (m.x,m.y), 2)
         pg.draw.circle(screen, (255,255,255), (m.x,m.y), m.radius)
         if not ((m.goalX-1<=int(m.x)<=m.goalX+1) and \
-                (m.goalY-1<=int(m.y)<=m.goalY+1)) and m.moving:
+                (m.goalY-1<=int(m.y)<=m.goalY+1)):
             m.x += math.cos(m.angle)*2
             m.y += math.sin(m.angle)*2
-        else:
-            m.moving = False
 
 while True:
     screen.fill(pg.Color('black'))
@@ -33,18 +31,16 @@ while True:
     move_missile()
     pg.display.update()
     for event in pg.event.get():
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_SPACE:
-                m = Missile()
-                m.goalX,m.goalY = pg.mouse.get_pos()
-                m.x = WIDTH/2
-                m.y = HEIGHT-50
-                x = m.goalX-m.x
-                y = m.goalY-m.y
-                m.angle = math.atan2(y,x)
-                m.radius = 5
-                m.moving = True
-                missiles.append(m)
+        if event.type == pg.MOUSEBUTTONDOWN:
+            m = Missile()
+            m.goalX,m.goalY = pg.mouse.get_pos()
+            m.x = WIDTH/2
+            m.y = HEIGHT-50
+            x = m.goalX-m.x
+            y = m.goalY-m.y
+            m.angle = math.atan2(y,x)
+            m.radius = 5
+            missiles.append(m)
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
