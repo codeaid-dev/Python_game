@@ -40,7 +40,7 @@ def create_enemy():
     x = e.goalX-e.x
     y = e.goalY-e.y
     e.angle = math.atan2(y,x)
-    e.radius = 5
+    e.radius = 1
     enemies.append(e)
 
 def move_enemy():

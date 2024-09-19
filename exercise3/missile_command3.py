@@ -12,6 +12,9 @@ enemies = []
 class Missile:
     pass
 
+class Base:
+    pass
+
 def target():
     mx,my = pg.mouse.get_pos()
     pg.draw.line(screen, (0,0,255), (mx-10,my), (mx+10,my), 5)
@@ -25,11 +28,11 @@ def move_missile():
                 (m.goalY-1<=int(m.y)<=m.goalY+1)):
             m.x += math.cos(m.angle)*2
             m.y += math.sin(m.angle)*2
-            if collide(m):
+            if collide_missile(m):
                 missiles.remove(m)
         else:
             m.radius += 0.5
-            if collide(m):
+            if collide_missile(m):
                 missiles.remove(m)
                 continue
             if m.radius > 60:
@@ -45,13 +48,13 @@ def create_enemy():
     x = e.goalX-e.x
     y = e.goalY-e.y
     e.angle = math.atan2(y,x)
-    e.radius = 5
+    e.radius = 1
     enemies.append(e)
 
-base = 10
+missile = 50
 over = False
 def move_enemy():
-    global base, over
+    global missile, over
     for e in enemies:
         pg.draw.line(screen, (255,0,0), (e.startX,e.startY), (e.x,e.y), 2)
         pg.draw.circle(screen, (255,255,255), (e.x,e.y), e.radius)
@@ -59,18 +62,42 @@ def move_enemy():
                 (e.goalY-1<=int(e.y)<=e.goalY+1)):
             e.x += math.cos(e.angle)
             e.y += math.sin(e.angle)
+            if collide_base(e):
+                enemies.remove(e)
         else:
-            base -= 1
-            enemies.remove(e)
-            if base <= 0:
+            if missile <= 0:
                 over = True
 
-def collide(missile):
+def collide_missile(missile):
     for e in enemies:
-         if ((e.x-missile.x)**2 + (e.y-missile.y)**2)**0.5 < e.radius+missile.radius:
+         if ((e.x-missile.x)**2 + (e.y-missile.y)**2)**0.5 < missile.radius:
              enemies.remove(e)
              return True
     return False
+
+def collide_base(enemy):
+    for b in bases:
+        if b.rect.collidepoint(enemy.x,enemy.y):
+            bases.remove(b)
+            return True
+    return False
+
+bases = []
+def create_base():
+    spaceX = ((WIDTH/2-100)-150)/4
+    for i in range(3):
+        b = Base()
+        b.x = spaceX+i*(spaceX+50)
+        b.y = HEIGHT-25
+        b.rect = pg.Rect(b.x,b.y,50,25)
+        bases.append(b)
+    for i in range(3):
+        b = Base()
+        b.x = WIDTH/2+100+spaceX+i*(spaceX+50)
+        b.y = HEIGHT-25
+        b.rect = pg.Rect(b.x,b.y,50,25)
+        bases.append(b)
+create_base()
 
 def draw_base():
     pg.draw.polygon(screen, (128,128,0),
@@ -78,7 +105,9 @@ def draw_base():
                      [WIDTH/2+50,HEIGHT-50],
                      [WIDTH/2+100,HEIGHT],
                      [WIDTH/2-100,HEIGHT]])
-    for i in range(base):
+    for b in bases:
+        pg.draw.rect(screen, (0,0,255), b.rect)
+    for i in range(math.ceil(missile/5)):
         x = i%5*20+(WIDTH/2-40)
         y = i//5*20+(HEIGHT-35)
         pg.draw.circle(screen, (255,0,0), (x,y), 5)        
@@ -112,6 +141,7 @@ while True:
             m.angle = math.atan2(y,x)
             m.radius = 5
             missiles.append(m)
+            missile -= 1
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
