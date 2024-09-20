@@ -25,6 +25,17 @@ def move_missile():
             m.x += math.cos(m.angle)*2
             m.y += math.sin(m.angle)*2
 
+def create_missile():
+    m = Missile()
+    m.goalX,m.goalY = pg.mouse.get_pos()
+    m.x = WIDTH/2
+    m.y = HEIGHT-50
+    x = m.goalX-m.x
+    y = m.goalY-m.y
+    m.angle = math.atan2(y,x)
+    m.radius = 5
+    missiles.append(m)
+
 while True:
     screen.fill(pg.Color('black'))
     target()
@@ -32,15 +43,7 @@ while True:
     pg.display.update()
     for event in pg.event.get():
         if event.type == pg.MOUSEBUTTONDOWN:
-            m = Missile()
-            m.goalX,m.goalY = pg.mouse.get_pos()
-            m.x = WIDTH/2
-            m.y = HEIGHT-50
-            x = m.goalX-m.x
-            y = m.goalY-m.y
-            m.angle = math.atan2(y,x)
-            m.radius = 5
-            missiles.append(m)
+            create_missile()
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()

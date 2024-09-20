@@ -30,6 +30,17 @@ def move_missile():
             if m.radius > 60:
                 missiles.remove(m)
 
+def create_missile():
+    m = Missile()
+    m.goalX,m.goalY = pg.mouse.get_pos()
+    m.x = WIDTH/2
+    m.y = HEIGHT-50
+    x = m.goalX-m.x
+    y = m.goalY-m.y
+    m.angle = math.atan2(y,x)
+    m.radius = 5
+    missiles.append(m)
+
 def create_enemy():
     e = Missile()
     e.goalX = random.randint(50,WIDTH-50)
@@ -66,15 +77,7 @@ while True:
     pg.display.update()
     for event in pg.event.get():
         if event.type == pg.MOUSEBUTTONDOWN:
-            m = Missile()
-            m.goalX,m.goalY = pg.mouse.get_pos()
-            m.x = WIDTH/2
-            m.y = HEIGHT-50
-            x = m.goalX-m.x
-            y = m.goalY-m.y
-            m.angle = math.atan2(y,x)
-            m.radius = 5
-            missiles.append(m)
+            create_missile()
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()

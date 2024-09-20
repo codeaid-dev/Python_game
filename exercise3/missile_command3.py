@@ -38,6 +38,17 @@ def move_missile():
             if m.radius > 60:
                 missiles.remove(m)
 
+def create_missile():
+    m = Missile()
+    m.goalX,m.goalY = pg.mouse.get_pos()
+    m.x = WIDTH/2
+    m.y = HEIGHT-50
+    x = m.goalX-m.x
+    y = m.goalY-m.y
+    m.angle = math.atan2(y,x)
+    m.radius = 5
+    missiles.append(m)
+
 def create_enemy():
     e = Missile()
     e.goalX = random.randint(50,WIDTH-50)
@@ -51,10 +62,9 @@ def create_enemy():
     e.radius = 1
     enemies.append(e)
 
-missile = 50
 over = False
 def move_enemy():
-    global missile, over
+    global over
     for e in enemies:
         pg.draw.line(screen, (255,0,0), (e.startX,e.startY), (e.x,e.y), 2)
         pg.draw.circle(screen, (255,255,255), (e.x,e.y), e.radius)
@@ -65,8 +75,10 @@ def move_enemy():
             if collide_base(e):
                 enemies.remove(e)
         else:
-            if missile <= 0:
-                over = True
+            enemies.remove(e)
+
+        if len(bases) == 0:
+            over = True
 
 def collide_missile(missile):
     for e in enemies:
@@ -110,37 +122,39 @@ def draw_base():
     for i in range(math.ceil(missile/5)):
         x = i%5*20+(WIDTH/2-40)
         y = i//5*20+(HEIGHT-35)
-        pg.draw.circle(screen, (255,0,0), (x,y), 5)        
+        pg.draw.circle(screen, (255,0,0), (x,y), 5)
 
 interval = 3
 timer = time.time()
+missile = 50
+enemy = 70
+clear = False
 while True:
     screen.fill(pg.Color('black'))
     target()
     draw_base()
-    if not over:
+    if not over and not clear:
         move_missile()
-        if time.time()-timer > interval:
+        if time.time()-timer > interval and enemy > 0:
             create_enemy()
             interval = random.randint(1,3)
             timer = time.time()
+            enemy -= 1
+        elif enemy == 0 and len(enemies) == 0:
+            clear = True
         move_enemy()
+    elif clear:
+        font = pg.font.SysFont('helvetica', 30)
+        txt = font.render('GAME CLEAR',True,(255,0,255))
+        screen.blit(txt,((WIDTH-txt.get_width())/2,(HEIGHT-txt.get_height())/2))
     else:
         font = pg.font.SysFont('helvetica', 30)
-        txt = font.render('GAME OVER',True,(255,0,255))
+        txt = font.render('GAME OVER',True,(255,0,0))
         screen.blit(txt,((WIDTH-txt.get_width())/2,(HEIGHT-txt.get_height())/2))
     pg.display.update()
     for event in pg.event.get():
         if event.type == pg.MOUSEBUTTONDOWN:
-            m = Missile()
-            m.goalX,m.goalY = pg.mouse.get_pos()
-            m.x = WIDTH/2
-            m.y = HEIGHT-50
-            x = m.goalX-m.x
-            y = m.goalY-m.y
-            m.angle = math.atan2(y,x)
-            m.radius = 5
-            missiles.append(m)
+            create_missile()
             missile -= 1
         if event.type == pg.QUIT:
             pg.quit()
